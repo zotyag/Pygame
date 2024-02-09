@@ -38,5 +38,8 @@ while True:
     screen.blit(wt.image,wt.rect)
     pg.display.update()
 
-
     clock.tick(60)
+
+
+
+
