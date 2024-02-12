@@ -5,7 +5,7 @@ class Turtle(pg.sprite.Sprite):
 
     def __init__(self, image, offset: tuple):
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.image.load(image)
+        self.image = pg.image.load(image).convert_alpha()
         self.rect = self.image.get_rect()
         self.rect = self.rect.move(offset[0], offset[1])
         self.speed = 0
@@ -39,6 +39,10 @@ class Finish(pg.sprite.Sprite):
 screen = pg.display.set_mode((1000, 700))
 clock = pg.time.Clock()
 finish=Finish((800, 170), (10, 480),(230,23,30))
+finish_text_type=pg.font.Font(None,60)
+finish_text=finish_text_type.render("FINISH",False,(230,23,30))
+finish_text=pg.transform.rotate(finish_text,270)
+finish.surface.blit(finish_text,finish_text.get_rect())
 
 wt = Turtle("TurtWh.png", (0, 200))
 bt = Turtle("TurtBl.png", (0, 300))
@@ -52,6 +56,10 @@ while True:
         if event.type == pg.QUIT:
             pg.quit()
             sys.exit()
+        elif event.type==pg.KEYDOWN and event.key==pg.K_ESCAPE:
+            pg.quit()
+            sys.exit()
+
 
     turtles.update()
     screen.fill((0, 0, 0))
@@ -61,8 +69,8 @@ while True:
     screen.blit(rt.image, rt.rect)
     screen.blit(yt.image, yt.rect)
     screen.blit(finish.surface,finish.rect)
+    screen.blit(finish_text,finish.rect.move(10,-80).midright)
 
     pg.display.update()
-
     clock.tick(60)
     # print(clock.get_fps())
