@@ -3,10 +3,11 @@ pg.init()
 
 class Turtle(pg.sprite.Sprite):
 
-    def __init__(self,image):
+    def __init__(self,image,offset:tuple):
         pg.sprite.Sprite.__init__(self)
         self.image=pg.image.load(image)
         self.rect=self.image.get_rect()
+        self.rect=self.rect.move(offset[0],offset[1])
         self.speed=3
         self.started=False
         self.finished=False
@@ -23,10 +24,14 @@ class Turtle(pg.sprite.Sprite):
         self.rect=newpos
 
 
+
+
+
+
 screen=pg.display.set_mode((1000,700))
 clock=pg.time.Clock()
 
-wt=Turtle("TurtWh.png")
+wt=Turtle("TurtWh.png",(0,500))
 
 while True:
     for event in pg.event.get():
