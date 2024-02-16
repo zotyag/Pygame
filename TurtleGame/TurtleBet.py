@@ -27,6 +27,8 @@ class Turtle(pg.sprite.Sprite):
         newpos = self.rect.move(self.speed, 0)
         self.rect = newpos
 
+
+
 class Finish(pg.sprite.Sprite):
     def __init__(self, pos: tuple,size:tuple,color:tuple):
         self.pos = pos
@@ -34,6 +36,17 @@ class Finish(pg.sprite.Sprite):
         self.surface.fill(color)
         self.rect = self.surface.get_rect()
         self.rect=self.rect.move(pos[0],pos[1])
+        self.finished=False
+
+    def crossed(self, *turtles):
+        for turtle in turtles:
+            if self.rect.colliderect(turtle.rect):
+                print("True")
+                self.finished=True
+
+
+
+
 
 
 screen = pg.display.set_mode((1000, 700))
@@ -61,15 +74,18 @@ while True:
             sys.exit()
 
 
-    turtles.update()
-    screen.fill((0, 0, 0))
-    screen.blit(wt.image, wt.rect)
-    screen.blit(bt.image, bt.rect)
-    screen.blit(gt.image, gt.rect)
-    screen.blit(rt.image, rt.rect)
-    screen.blit(yt.image, yt.rect)
-    screen.blit(finish.surface,finish.rect)
-    screen.blit(finish_text,finish.rect.move(10,-80).midright)
+    if not finish.finished:
+        turtles.update()
+        screen.fill((0, 0, 0))
+        screen.blit(wt.image, wt.rect)
+        screen.blit(bt.image, bt.rect)
+        screen.blit(gt.image, gt.rect)
+        screen.blit(rt.image, rt.rect)
+        screen.blit(yt.image, yt.rect)
+        screen.blit(finish.surface,finish.rect)
+        screen.blit(finish_text,finish.rect.move(10,-80).midright)
+        finish.crossed(wt,bt,gt,rt,yt)
+
 
     pg.display.update()
     clock.tick(60)
