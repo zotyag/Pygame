@@ -36,6 +36,11 @@ class Finish(pg.sprite.Sprite):
         self.rect=self.rect.move(pos[0],pos[1])
         self.finished=False
 
+        finish_text_type = pg.font.Font(None, 60)
+        self.finish_text = finish_text_type.render("FINISH", False, (230, 23, 30))
+        self.finish_text = pg.transform.rotate(self.finish_text, 270)
+        self.finish_text_rect=self.rect.move(10,-80).midright
+
     def crossed(self, *turtles):
         for turtle in turtles:
             if self.rect.colliderect(turtle.rect):
@@ -62,14 +67,7 @@ class Balance(pg.sprite.Sprite):
 screen = pg.display.set_mode((1000, 700))
 clock = pg.time.Clock()
 finish=Finish((800, 170), (10, 480),(230,23,30))
-
 balance=Balance(1000)
-
-finish_text_type=pg.font.Font(None,60)
-finish_text=finish_text_type.render("FINISH",False,(230,23,30))
-finish_text=pg.transform.rotate(finish_text,270)
-finish.surface.blit(finish_text,finish_text.get_rect())
-
 
 wt = Turtle("TurtWh.png", (0, 200))
 bt = Turtle("TurtBl.png", (0, 300))
@@ -77,6 +75,9 @@ gt = Turtle("TurtGr.png", (0, 400))
 rt = Turtle("TurtRe.png", (0, 500))
 yt = Turtle("TurtYe.png", (0, 600))
 turtles = pg.sprite.RenderPlain(wt, bt, gt, rt, yt)
+
+
+
 
 while True:
     for event in pg.event.get():
@@ -97,7 +98,7 @@ while True:
         screen.blit(rt.image, rt.rect)
         screen.blit(yt.image, yt.rect)
         screen.blit(finish.surface,finish.rect)
-        screen.blit(finish_text,finish.rect.move(10,-80).midright)
+        screen.blit(finish.finish_text,finish.finish_text_rect)
         screen.blit(balance.text,balance.rect)
         finish.crossed(wt,bt,gt,rt,yt)
 
