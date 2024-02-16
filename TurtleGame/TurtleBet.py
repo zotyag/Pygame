@@ -5,13 +5,11 @@ class Turtle(pg.sprite.Sprite):
 
     def __init__(self, image, offset: tuple):
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.image.load(image).convert_alpha()
+        self.image = pg.image.load(image).convert()
         self.rect = self.image.get_rect()
         self.rect = self.rect.move(offset[0], offset[1])
         self.speed = 0
         self._new_speed = 2
-        self.started = False
-        self.finished = False
         self._counter = 0
 
     def update(self):
@@ -44,6 +42,18 @@ class Finish(pg.sprite.Sprite):
                 print("True")
                 self.finished=True
 
+class Balance(pg.sprite.Sprite):
+
+    def __init__(self,starting:int,):
+        self.__balance=starting
+        self.font=pg.font.Font(None, 60)
+        self.text=self.font.render(f"Balance: {self.__balance}", True, (10,230,33))
+        self.rect=self.text.get_rect().move(screen.get_width()-self.text.get_width(),10)
+
+    def update(self):
+        ...
+
+
 
 
 
@@ -52,10 +62,14 @@ class Finish(pg.sprite.Sprite):
 screen = pg.display.set_mode((1000, 700))
 clock = pg.time.Clock()
 finish=Finish((800, 170), (10, 480),(230,23,30))
+
+balance=Balance(1000)
+
 finish_text_type=pg.font.Font(None,60)
 finish_text=finish_text_type.render("FINISH",False,(230,23,30))
 finish_text=pg.transform.rotate(finish_text,270)
 finish.surface.blit(finish_text,finish_text.get_rect())
+
 
 wt = Turtle("TurtWh.png", (0, 200))
 bt = Turtle("TurtBl.png", (0, 300))
@@ -84,6 +98,7 @@ while True:
         screen.blit(yt.image, yt.rect)
         screen.blit(finish.surface,finish.rect)
         screen.blit(finish_text,finish.rect.move(10,-80).midright)
+        screen.blit(balance.text,balance.rect)
         finish.crossed(wt,bt,gt,rt,yt)
 
 
